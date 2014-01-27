@@ -1,3 +1,4 @@
-project-name-*.tgz
-test/fixtures
+node_modules
+lib/*
 dist
+*.db

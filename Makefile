@@ -24,7 +24,7 @@ $(LIBDIR)/%.js: $(SRCDIR)/%.coffee
 
 $(DISTDIR)/bundle.js: $(LIB)
 	@mkdir -p "$(@D)"
-	$(CJSIFY) -x ProjectName $(shell node -pe 'require("./package.json").main') >"$@"
+	$(CJSIFY) -x roadtrip $(shell node -pe 'require("./package.json").main') >"$@"
 
 .PHONY: phony-dep release test loc clean
 phony-dep:

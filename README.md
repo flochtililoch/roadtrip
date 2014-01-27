@@ -1,12 +1,12 @@
-# Project Name
+# Road Trip
 
-Project Description
+Store positions of discovered surrounding BLE devices.
 
 
 
 ## Install
 
-    npm install --save project-name
+    make build
 
 
 
@@ -14,19 +14,4 @@ Project Description
 
 ### CLI
 
-    $ bin/binary-name --help
-
-#### Example:
-
-### Module Interface
-
-#### `exportedFunction(args)` → Return Value
-Description
-
-
-
-## Examples
-
-### CLI example
-
-### Module Example
+    $ bin/roadtrip
