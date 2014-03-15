@@ -48,7 +48,6 @@ release: build test
 	git commit package.json -m 'Version $(NEXT_VERSION)'
 	git tag -a "v$(NEXT_VERSION)" -m "Version $(NEXT_VERSION)"
 	git push --tags origin HEAD:master
-	npm publish
 
 test:
 	$(MOCHA) $(TEST)
@@ -60,3 +59,4 @@ loc:
 
 clean:
 	@rm -rf "$(LIBDIR)" "$(DISTDIR)"
+
