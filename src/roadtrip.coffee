@@ -7,13 +7,15 @@ Datastore         = require 'nedb'
 class Roadtrip
 
   constructor: ->
-    @locationScanner = new LocationScanner
-    @peripheralScanner = new PeripheralScanner
-
     @locations = new Locations
     @peripherals = new Peripherals
 
+    @locationScanner = new LocationScanner
     @locationScanner.on 'newlocation', @addLocation
+    @locationScanner.once 'newlocation', @initPeripheralScanner
+
+  initPeripheralScanner: =>
+    @peripheralScanner = new PeripheralScanner
     @peripheralScanner.on 'newperipheral', @addPeripheral
 
   addLocation: (location) =>
