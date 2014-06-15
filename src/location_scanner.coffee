@@ -6,8 +6,7 @@ class LocationScanner extends EventEmitter
 
   constructor: ->
     bancroft = new Bancroft
-    bancroft.once 'location', =>
-      bancroft.on 'location', @locationAquired
+    bancroft.on 'location', @locationAquired
 
   locationAquired: (data) =>
     location = new Location data

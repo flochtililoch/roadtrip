@@ -2,7 +2,7 @@ LocationScanner   = require './location_scanner'
 PeripheralScanner = require './peripheral_scanner'
 Locations         = require './locations'
 Peripherals       = require './peripherals'
-Datastore         = require 'nedb'
+photon            = require 'freedompop-photon-cli/lib/photon'
 
 class Roadtrip
 
@@ -10,13 +10,23 @@ class Roadtrip
     @locations = new Locations
     @peripherals = new Peripherals
 
-    @locationScanner = new LocationScanner
-    @locationScanner.on 'newlocation', @addLocation
-    @locationScanner.once 'newlocation', @initPeripheralScanner
+  start: ->
+    @locations.once 'ready', =>
+      @locationScanner = new LocationScanner
+      @locationScanner.on 'newlocation', @addLocation
+      @locationScanner.once 'newlocation', @initPeripheralScanner
+    @locations.load()
+
+  sync: ->
+    @peripherals.once 'ready', =>
+      console.log @peripherals.all()
+    @peripherals.load()
 
   initPeripheralScanner: =>
-    @peripheralScanner = new PeripheralScanner
-    @peripheralScanner.on 'newperipheral', @addPeripheral
+    @peripherals.once 'ready', =>
+      @peripheralScanner = new PeripheralScanner
+      @peripheralScanner.on 'newperipheral', @addPeripheral
+    @peripherals.load()
 
   addLocation: (location) =>
     @locations.add location

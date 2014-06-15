@@ -11,12 +11,11 @@ class Location
     return false unless location instanceof Location
 
     round = (x) -> Math.ceil(x * 100000) / 100000
-    sameLatitude = round(location.latitude) is round @latitude
-    sameLongitude = round(location.longitude) is round @longitude
-    sameAltitude = Math.ceil location.altitude is Math.ceil @altitude
-    return true if sameLatitude and sameLongitude and sameAltitude
+    sameLatitude = round(location.latitude) is round(@latitude)
+    sameLongitude = round(location.longitude) is round(@longitude)
+    sameAltitude = Math.ceil(location.altitude) is Math.ceil(@altitude)
 
-    false
+    sameLatitude and sameLongitude and sameAltitude
 
 
 module.exports = Location

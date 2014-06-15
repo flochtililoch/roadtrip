@@ -25,7 +25,8 @@
   "dependencies": {
     "bancroft": "~0.0.11",
     "nedb": "~0.10.5",
-    "noble": "~0.3.0"
+    "noble": "~0.3.0",
+    "freedompop-photon-cli": "~0.0.1"
   },
   "devDependencies": {
     "coffee-script-redux": "2.0.0-beta7",
