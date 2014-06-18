@@ -13,8 +13,14 @@ class Datastore extends EventEmitter
       autoload: true
       onload: => @emit 'ready'
 
-  add: (entry) ->
+  push: (entry) ->
     @db.insert entry
+
+  pop: (done) ->
+    db = @db
+    db.findOne {}, (err, item) ->
+      complete = (err) => db.remove _id: item._id unless err?
+      done(complete)(err, item)
 
   all: ->
     @db.getAllData()

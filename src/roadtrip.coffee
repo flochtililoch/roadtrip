@@ -1,8 +1,11 @@
+config            = require '../config.json'
 LocationScanner   = require './location_scanner'
 PeripheralScanner = require './peripheral_scanner'
 Locations         = require './locations'
 Peripherals       = require './peripherals'
-photon            = require 'freedompop-photon-cli/lib/photon'
+Photon            = require 'freedompop-photon-cli/lib/photon'
+photonConfig      = require '../photon-config.json'
+{post}            = require 'request'
 
 class Roadtrip
 
@@ -17,9 +20,38 @@ class Roadtrip
       @locationScanner.once 'newlocation', @initPeripheralScanner
     @locations.load()
 
+  setOffline: ->
+    @online = false
+
+  setOnline: ->
+    @online = true
+
   sync: ->
-    @peripherals.once 'ready', =>
-      console.log @peripherals.all()
+    @setOffline()
+
+    photon = new Photon photonConfig.network.ip, photonConfig
+    photon
+      .on('error_communicating_with_photon', => @setOffline())
+      .on('lost_configuration',              => @setOffline())
+      .on('disconnected',                    => @setOffline())
+      .on('connected',                       => @setOnline())
+      .monitor()
+
+    sync = =>
+      {timeout, frequency, base_url} = config.sync
+      uri = "#{base_url}/trips"
+
+      if @online
+        @peripherals.pop (complete) ->
+          (err, data) ->
+            if not err? and data?
+              form = data: JSON.stringify data
+              post {form, timeout, uri}, complete
+
+      setTimeout sync, frequency
+
+    @peripherals.once 'ready', sync
+
     @peripherals.load()
 
   initPeripheralScanner: =>
@@ -29,10 +61,10 @@ class Roadtrip
     @peripherals.load()
 
   addLocation: (location) =>
-    @locations.add location
+    @locations.push location
 
   addPeripheral: (peripheral) =>
-    @peripherals.add
+    @peripherals.push
       peripheral: peripheral
       location: @locationScanner.currentLocation
 
