@@ -39,7 +39,7 @@ class Roadtrip
 
     sync = =>
       {timeout, frequency, base_url} = config.sync
-      uri = "#{base_url}/trips"
+      uri = "#{base_url}/beacons"
 
       if @online
         @peripherals.pop (complete) ->
