@@ -8,10 +8,11 @@ class PeripheralScanner extends EventEmitter
     noble.on 'discover', @peripheralDiscovered
     noble.startScanning()
 
-  peripheralDiscovered: ({advertisement, uuid}) =>
+  peripheralDiscovered: ({advertisement, uuid, rssi}) =>
     peripheral = new Peripheral
       name: advertisement?.localName
       mac:  uuid.replace /(.{2})(.{2})(.{2})(.{2})(.{2})(.{2})/, "$1:$2:$3:$4:$5:$6"
+      rssi: rssi
     @emit 'newperipheral', peripheral
 
 

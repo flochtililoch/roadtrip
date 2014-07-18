@@ -27,7 +27,9 @@
     "freedompop-photon-cli": "~0.0.1",
     "nedb": "~0.10.5",
     "noble": "~0.3.0",
-    "request": "~2.36.0"
+    "request": "~2.36.0",
+    "node-logentries": "^0.1.4",
+    "geolib": "^2.0.14"
   },
   "devDependencies": {
     "coffee-script-redux": "2.0.0-beta7",

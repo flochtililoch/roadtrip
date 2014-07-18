@@ -18,9 +18,10 @@ class Datastore extends EventEmitter
 
   pop: (done) ->
     db = @db
-    db.findOne {}, (err, item) ->
-      complete = (err) => db.remove _id: item._id unless err?
-      done(complete)(err, item)
+    db.loadDatabase ->
+      db.findOne {}, (err, item) ->
+        complete = (err) => db.remove _id: item._id unless err?
+        done(complete)(err, item)
 
   all: ->
     @db.getAllData()
